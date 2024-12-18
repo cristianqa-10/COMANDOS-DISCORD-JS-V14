@@ -8,6 +8,11 @@ module.exports = {
     .addStringOption(option => option.setName('razon').setDescription('Razón de la expulsión')),
 
   async execute(interaction) {
+    // Verificar permisos de administrador
+    if (!interaction.member.permissions.has('ADMINISTRATOR')) {
+      return interaction.reply({ content: '🚫 **No tienes permisos de administrador para ejecutar este comando.**', ephemeral: true });
+    }
+
     const user = interaction.options.getUser('usuario');
     const razon = interaction.options.getString('razon') || 'No se especificó una razón';
     const member = interaction.guild.members.cache.get(user.id);
@@ -38,4 +43,3 @@ module.exports = {
     }
   },
 };
-
